@@ -1,6 +1,7 @@
 
 var express = require('express');
 var router = express.Router();
+const passport = require('passport');
 
 const userController = require('../controllers/userController');
 
@@ -14,6 +15,6 @@ router.get('/:id', userController.getUserById);
 router.post('/',  userController.createUser);
 
 /* update user */
-router.put('/:id', userController.updateUser);
+router.put('/:id', passport.authenticate("jwt", {session: false}), userController.updateUser);
 
 module.exports = router;

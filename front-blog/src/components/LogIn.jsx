@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import config from '../../config';
+import { useNavigate } from "react-router-dom";
 
 const LogIn = () => {
+    const navigate = useNavigate();
+
     const [email, setEmail] = useState('');
     const [emailError, setEmailError] = useState('');
     const [password, setPassword] = useState('');
@@ -48,6 +51,7 @@ const LogIn = () => {
 
             console.log('Succesfully logged in:', response.data);
             localStorage.setItem('token', response.data.token);
+            navigate("/");
         } catch (error) {
             // Handle errors
             console.error('Error logging in: ', error.message);

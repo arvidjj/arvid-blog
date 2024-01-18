@@ -31,6 +31,34 @@ const SignUp = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            //validation
+            if (username.length === 0) {
+                setUsernameError('Username is required');
+                return;
+            } else {
+                setUsernameError('');
+            }
+
+            if (email.length === 0) {
+                setEmailError('Email is required');
+                return;
+            } else {
+                setEmailError('');
+            }
+
+            if (password.length === 0) {
+                setPasswordError('Password is required');
+                return;
+            } else if (password.length < 6) {
+                setPasswordError('Password must be at least 6 characters');
+                return;
+            } else if (password !== confirmPassword) {
+                setPasswordError('Passwords do not match');
+                return;
+            } else {
+                setPasswordError('');
+            }
+
             const formData = {
                 username,
                 email,
@@ -50,19 +78,43 @@ const SignUp = () => {
         <div>
             <h2>Sign Up</h2>
             <form onSubmit={handleSubmit} >
-                <label>Username:</label>
-                <input type="username" value={username} onChange={handleUsernameChange} />
+                <div className="form1">
 
-                <label>Email:</label>
-                <input type="email" value={email} onChange={handleEmailChange} />
+                    <div className="formfield">
+                        <div className="forminput">
+                            <label>Username:</label>
+                            <input type="username" value={username} onChange={handleUsernameChange} />
+                            {usernameError && <div className="error">{usernameError}</div>}
+                        </div>
+                    </div>
 
-                <label>Password:</label>
-                <input type="password" value={password} onChange={handlePasswordChange} />
+                    <div className="formfield">
+                        <div className="forminput">
+                            <label>Email:</label>
+                            <input type="email" value={email} onChange={handleEmailChange} />
+                            {emailError && <div className="error">{emailError}</div>}
+                        </div>
+                    </div>
 
-                <label>Confirm Password:</label>
-                <input type="password" value={confirmPassword} onChange={handleConfirmPasswordChange} />
+                    <div className="formfield">
+                        <div className="forminput">
+                            <label>Password:</label>
+                            <input type="password" value={password} onChange={handlePasswordChange} />
+                        </div>
+                    </div>
 
-                <button type="submit">Sign Up</button>
+                    <div className="formfield">
+                        <div className="forminput">
+                            <label>Confirm Password:</label>
+                            <input type="password" value={confirmPassword} onChange={handleConfirmPasswordChange} />
+                            {passwordError && <div className="error">{passwordError}</div>}
+                        </div>
+                    </div>
+
+                    <div style={{marginTop:'15px', alignSelf:'flex-end'}}>
+                        <button type="submit">Sign Up</button>
+                    </div>
+                </div>
             </form>
         </div>
     );

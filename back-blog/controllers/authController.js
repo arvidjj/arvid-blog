@@ -18,7 +18,7 @@ authController.login = (req, res, next) => {
         const userObject = user.toObject();
         delete userObject.password;
         delete userObject.email;
-        
+
         jwt.sign({ user: user }, process.env.JWT_SECRET, (err, token) => {
             if (err) {
                 return res.status(500).json({ message: err });
@@ -26,6 +26,11 @@ authController.login = (req, res, next) => {
             return res.json({ token, user: userObject});
         });
     })(req, res, next);
+}
+
+authController.logout = (req, res) => {
+    req.logout();
+    res.json({ message: 'Logout successful' });
 }
 
 

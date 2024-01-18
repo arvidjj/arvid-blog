@@ -5,6 +5,7 @@ import Index from './components/Index'
 import Header from './components/Header'
 import SignUp from './components/SignUp'
 import LogIn from './components/LogIn'
+import instance from "./api_instance";
 
 function App() {
 

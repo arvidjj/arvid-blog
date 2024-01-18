@@ -10,4 +10,6 @@ router.get('/', function (req, res, next) {
 
 router.post('/login', authController.login);
 
+router.post('/logout', authController.logout)
+
 module.exports = router;
