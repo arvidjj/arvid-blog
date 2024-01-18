@@ -1,0 +1,48 @@
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#root {
+  min-width: 320px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+header {
+  display:flex;
+  min-width: 1000px;
+}
+
+.navlist {
+  display:flex;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  gap:20px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.logo {
+  padding: 1.5em;
+}
+
+.footer {
+  margin-top: auto;
+}
+
+.signup {
+  display:flex;
+  align-items: center;
+  margin-left:auto;
+  gap:15px;
+}

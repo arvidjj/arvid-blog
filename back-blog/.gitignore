@@ -1,0 +1,4 @@
+node_modules
+
+# the process env to hide secret key
+.env
