@@ -13,10 +13,15 @@ userController.createUser = async (req, res, next) => {
 
   try {
     const { username, password, email, role } = req.body;
-
+    const users = await User.find();
+    // If email is already in use
+    const emailExists = users.find((user) => user.email === email);
+    if (emailExists) {
+      return res.status(400).json({ message: 'Email already in use' });
+    }
+  
     // Check if an admin already exists
     if (role === 'admin') {
-      const users = await User.find();
       const admin = users.find((user) => user.role === 'admin');
       if (admin) {
         return res.status(400).json({ message: 'Admin already exists' });

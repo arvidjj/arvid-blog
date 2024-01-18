@@ -12,6 +12,7 @@ const cors = require('cors');
 //passport
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const JwtStrategy = require('passport-jwt').Strategy;
 const session = require('express-session');
 const User = require('./models/user');
 const bcrypt = require('bcrypt');
@@ -51,11 +52,37 @@ app.use(bodyParser.json());
 
 
 // passport
-passport.use(new LocalStrategy( { usernameField: 'email', passwordField: 'password'},
+//JWT
+passport.use(new JwtStrategy(
+  {
+    secretOrKey: process.env.JWT_SECRET,
+    jwtFromRequest: (req) => {
+      let token = null;
+      if (req && req.headers.authorization) {
+        const authorizationHeader = req.headers.authorization;
+        const tokenPrefix = 'Bearer ';
+        if (authorizationHeader.startsWith(tokenPrefix)) {
+          token = authorizationHeader.substring(tokenPrefix.length);
+        }
+      }
+      return token;
+    },
+  },
+  async (token, done) => {
+    try {
+      return done(null, token.user);
+    } catch (err) {
+      done(err);
+    }
+  }
+));
+
+//SESSION
+passport.use(new LocalStrategy({ usernameField: 'email', passwordField: 'password' },
   async (email, password, done) => {
     try {
       const user = await User.findOne({ email: email });
-      
+
       if (!user) {
         return done(null, false, { message: 'Incorrect email' });
       }

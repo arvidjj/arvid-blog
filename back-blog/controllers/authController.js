@@ -13,12 +13,17 @@ authController.login = (req, res, next) => {
         if (!user) {
             return res.status(401).json({ message: 'Authentication failed' });
         }
+
+        // create user dboject without password and email and id
+        const userObject = user.toObject();
+        delete userObject.password;
+        delete userObject.email;
         
-        jwt.sign({ user: req.user }, process.env.JWT_SECRET, (err, token) => {
+        jwt.sign({ user: user }, process.env.JWT_SECRET, (err, token) => {
             if (err) {
                 return res.status(500).json({ message: err });
             }
-            return res.json({ token });
+            return res.json({ token, user: userObject});
         });
     })(req, res, next);
 }

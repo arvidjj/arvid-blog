@@ -4,8 +4,12 @@ import config from '../../config';
 
 const SignUp = () => {
     const [username, setUsername] = useState('');
+    const [usernameError, setUsernameError] = useState('');
     const [email, setEmail] = useState('');
+    const [emailError, setEmailError] = useState('');
     const [password, setPassword] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
 
     const handleUsernameChange = (e) => {
         setUsername(e.target.value);
@@ -18,6 +22,11 @@ const SignUp = () => {
     const handlePasswordChange = (e) => {
         setPassword(e.target.value);
     };
+
+    const handleConfirmPasswordChange = (e) => {
+        setConfirmPassword(e.target.value);
+    };
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -49,6 +58,9 @@ const SignUp = () => {
 
                 <label>Password:</label>
                 <input type="password" value={password} onChange={handlePasswordChange} />
+
+                <label>Confirm Password:</label>
+                <input type="password" value={confirmPassword} onChange={handleConfirmPasswordChange} />
 
                 <button type="submit">Sign Up</button>
             </form>

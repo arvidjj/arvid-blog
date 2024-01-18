@@ -46,3 +46,26 @@ header {
   margin-left:auto;
   gap:15px;
 }
+
+
+.form1 {
+  display: flex;
+  flex-direction: column;
+  gap:20px;
+
+  border: 1px solid transparent;
+  border-radius: 12px;
+  padding: 2rem;
+
+  background-color: #28104e;
+}
+
+.forminput {
+  display: flex;
+  flex-direction: column;
+  gap:5px;
+}
+
+.disabledbutton {
+  cursor: not-allowed;
+}
