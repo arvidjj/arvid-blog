@@ -5,7 +5,7 @@ import Index from './components/Index'
 import Header from './components/Header'
 import SignUp from './components/SignUp'
 import LogIn from './components/LogIn'
-import instance from "./api_instance";
+
 
 function App() {
 
@@ -14,11 +14,15 @@ function App() {
       <Header />
 
       <div className="App">
+
+
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="signup" element={<SignUp />} />
           <Route path="login" element={<LogIn />} />
         </Routes>
+
+
       </div>
 
       <footer className='footer'>

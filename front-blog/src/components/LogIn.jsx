@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import config from '../../config';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks/AuthProvider';
 
 const LogIn = () => {
     const navigate = useNavigate();
+    const { value, login } = useAuth();
 
     const [email, setEmail] = useState('');
     const [emailError, setEmailError] = useState('');
     const [password, setPassword] = useState('');
     const [passwordError, setPasswordError] = useState('');
-
     const [isSubmitDisabled, setSubmitDisabled] = useState(false);
 
     const handleEmailChange = (e) => {
@@ -21,40 +22,49 @@ const LogIn = () => {
         setPassword(e.target.value);
     };
 
+    const validateForm = () => {
+        let isValid = true;
+
+        if (email.length === 0) {
+            setEmailError('Email is required');
+            isValid = false;
+        } else {
+            setEmailError('');
+        }
+
+        if (password.length === 0) {
+            setPasswordError('Password is required');
+            isValid = false;
+        } else {
+            setPasswordError('');
+        }
+
+        return isValid;
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!validateForm()) {
+            return;
+        }
+
         try {
-
-            //Validation
-            if (email.length === 0) {
-                setEmailError('Email is required');
-                return;
-            } else {
-                setEmailError('');
-            }
-
-            if (password.length === 0) {
-                setPasswordError('Password is required');
-                return;
-            } else {
-                setPasswordError('');
-            }
+            setSubmitDisabled(true);
 
             const formData = {
                 email,
                 password,
             };
 
-            //disable button
-            setSubmitDisabled(true);
             const response = await axios.post(`${config.backendUrl}/login`, formData);
 
-            console.log('Succesfully logged in:', response.data);
-            localStorage.setItem('token', response.data.token);
-            navigate("/");
+            console.log('Successfully logged in:', response.data);
+            login(response.data.user, response.data.token);
+            navigate('/');
         } catch (error) {
-            // Handle errors
             console.error('Error logging in: ', error.message);
+        } finally {
             setSubmitDisabled(false);
         }
     };
