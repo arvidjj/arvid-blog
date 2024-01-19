@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 
 const AuthContext = createContext();
 
@@ -7,32 +7,43 @@ export const useAuth = () => {
 }
 
 export const AuthProvider = ({ children }) => {
-  const [authUser, setAuthUser] = useState(null);
+  const [authUserId, setAuthUserId] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  useEffect(() => {
+    // Check for an existing token in local storage
+    const storedToken = localStorage.getItem('token');
+    const storedUser = localStorage.getItem('userId');
+
+    if (storedToken && storedUser) {
+      setAuthUserId(storedUser);
+      setIsAuthenticated(true);
+    }
+  }, []); // Empty dependency array ensures this effect runs only once on component mount
+
   const value = {
-    authUser,
-    setAuthUser,
+    authUserId,
+    setAuthUserId,
     isAuthenticated,
     setIsAuthenticated,
   };
 
   const login = (user, token) => {
     setIsAuthenticated(true);
-    setAuthUser(user);
+    setAuthUserId(user._id);
 
-    // Only store user identifier in local storage
+    // Store user identifier and token in local storage
     localStorage.setItem('token', token);
-    localStorage.setItem('user', user._id);
+    localStorage.setItem('userId', user._id);
   };
 
   const logout = () => {
     setIsAuthenticated(false);
-    setAuthUser(null);
+    setAuthUserId(null);
 
     // Clear local storage
     localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    localStorage.removeItem('userId');
   };
 
   return (

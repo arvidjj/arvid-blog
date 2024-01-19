@@ -47,6 +47,12 @@ header {
   gap:15px;
 }
 
+.user {
+  display:flex;
+  align-items: center;
+  margin-left:auto;
+  gap:15px;
+}
 
 .form1 {
   display: flex;

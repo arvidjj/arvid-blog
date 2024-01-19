@@ -32,7 +32,7 @@ const Index = () => {
         <div>
             {value.isAuthenticated && (
                 <div>
-                    <h3>Hello, {value.authUser.username}!</h3>
+                    <h3>Hello, {value.authUserId}!</h3>
                     <a href="/posts/new">New Post</a>
                 </div>
             )}
