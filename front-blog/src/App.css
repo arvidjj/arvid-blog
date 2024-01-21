@@ -32,6 +32,14 @@ header {
   text-align: center;
 }
 
+.App {
+  margin-top:10px
+}
+
+.linkbutton {
+  font-size: 1.2em;
+}
+
 .logo {
   padding: 1.5em;
 }
@@ -74,4 +82,54 @@ header {
 
 .disabledbutton {
   cursor: not-allowed;
+}
+
+.darkfont {
+  color: #000000;
+}
+
+.postbody {
+  display: flex;
+  flex-direction: column;
+  gap:20px;
+  margin: 0 auto;
+  min-width: 800px;
+  max-width: 800px;
+  padding: 0 1em;
+}
+
+
+.postheader {
+  margin-top:30px;
+}
+
+.postindex {
+  gap:20px;
+  margin: 0 auto;
+  min-width: 800px;
+  max-width: 800px;
+  padding: 0 1em;
+  width: 100%;
+  
+}
+
+.postcontentindex {
+  padding-bottom: 1rem;
+}
+
+li {
+  list-style-type: none;
+}
+
+.posttitleandtime {
+  margin-bottom:40px;
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+.posttitleandtime h1 {
+  margin-bottom: 5px;
+  margin-top: 10px;
 }

@@ -23,7 +23,7 @@ const Header = () => {
             {value.isAuthenticated ? (
                 <div className="user">
                     <nav className="user-nav">
-                        <a href='/posts/new'>New Post</a>
+                        <a href='/newpost'>New Post</a>
                         <a href='/posts'>My Posts</a>
                     </nav>
                     <button onClick={logOutButton}>Log Out</button>

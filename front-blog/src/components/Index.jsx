@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import instance from '../api_instance'
-import config from '../../config';
-import { useAuth } from '../hooks/AuthProvider'
+import instance from '../api_instance';
+import { useAuth } from '../hooks/AuthProvider';
+import { useNavigate } from 'react-router-dom';
+import parse from 'html-react-parser';
+import DOMPurify from 'dompurify';
 
 const Index = () => {
     const [posts, setPosts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const { value } = useAuth();
+    const navigate = useNavigate();
 
     useEffect(() => {
-        console.log(value.isAuthenticated)
         const fetchPosts = async () => {
             try {
                 const response = await instance.get('/posts');
-
                 setPosts(response.data);
                 setIsLoading(false);
             } catch (error) {
@@ -23,6 +24,20 @@ const Index = () => {
 
         fetchPosts();
     }, []);
+
+    const enterPost = async (id) => {
+        navigate(`/post/${id}`);
+    };
+
+    //format date
+    const formatDate = (date) => {
+        const dateObj = new Date(date);
+        const year = dateObj.getFullYear();
+        const month = dateObj.getMonth() + 1;
+        const day = dateObj.getDate();
+        const formattedDate = `${month}/${day}/${year}`;
+        return formattedDate;
+    };
 
     if (isLoading) {
         return <div>Loading...</div>;
@@ -41,10 +56,25 @@ const Index = () => {
             <ul>
                 {posts.map((post) => (
                     <li key={post._id}>
-                        <a href={`/posts/${post.id}`}>{post.title}</a>
+                        <div className="postindex">
+                            <div className='postcontentindex'>
+                                <div className="posttitleandtime">
+                                    <a href={`/post/${post._id}`}>
+                                        <h1>{post.title}</h1>
+                                    </a>
+                                    <p>{formatDate(post.timestamp)}</p>
+                                </div>
+                                {parse(`${DOMPurify.sanitize(post.content)}`)}
+                            </div>
+                            <div style={{ display: 'flex', marginLeft: 'auto', marginBottom: '10px' }}>
+                                <button onClick={() => enterPost(post._id)}>Read More</button>
+                            </div>
+                            <hr />
+                        </div>
                     </li>
                 ))}
             </ul>
+            {/* Pagination */}
         </div>
     );
 };
