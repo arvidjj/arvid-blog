@@ -4,10 +4,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 var path = require('path');
-var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors');
-
+var cookies = require("cookie-parser");
 
 //passport
 const passport = require('passport');
@@ -28,13 +27,15 @@ var postsRouter = require('./routes/posts');
 
 var app = express();
 
+app.use(cookies());
 // Configure CORS
-const corsOptions = {
-  origin: process.env.FRONT_END,
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true,
-};
-app.use(cors(corsOptions));
+app.use(
+  cors({
+    credentials: true,
+    origin: process.env.FRONT_END ?? "http://localhost:3000",
+    optionsSuccessStatus: 200,
+  })
+);
 
 
 // view engine setup
@@ -44,29 +45,35 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-
 // passport
+app.use(session({
+  secret: process.env.SESSION_KEY,
+  resave: false,
+  saveUninitialized: false,
+  cookie: { httpOnly: true, sameSite: "strict", secure: false, maxAge: 3600000, path: '/' }
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
 //JWT
+const cookieExtractor = req => {
+  let jwt = null 
+  //console.log(req.cookies['jwauth'])
+  if (req && req.cookies) {
+      jwt = req.cookies['jwauth']
+  }
+
+  return jwt
+}
 passport.use(new JwtStrategy(
   {
     secretOrKey: process.env.JWT_SECRET,
-    jwtFromRequest: (req) => {
-      let token = null;
-      if (req && req.headers.authorization) {
-        const authorizationHeader = req.headers.authorization;
-        const tokenPrefix = 'Bearer ';
-        if (authorizationHeader.startsWith(tokenPrefix)) {
-          token = authorizationHeader.substring(tokenPrefix.length);
-        }
-      }
-      return token;
-    },
+    jwtFromRequest: cookieExtractor,
   },
   async (token, done) => {
     try {

@@ -23,6 +23,12 @@ authController.login = (req, res, next) => {
             if (err) {
                 return res.status(500).json({ message: err });
             }
+            res.cookie('jwauth', token, { 
+                httpOnly: true,
+                secure: false,
+                maxAge: 3600000, 
+                path: '/',
+            });
             return res.json({ token, user: userObject});
         });
     })(req, res, next);

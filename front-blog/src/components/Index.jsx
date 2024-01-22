@@ -48,10 +48,9 @@ const Index = () => {
             {value.isAuthenticated && (
                 <div>
                     <h3>Hello, {value.authUserId}!</h3>
-                    <a href="/posts/new">New Post</a>
                 </div>
             )}
-            <h1>Welcome to My Blog!</h1>
+            <h1>Arvid OJ</h1>
             <h2>Latest Posts</h2>
             <ul>
                 {posts.map((post) => (

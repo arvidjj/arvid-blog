@@ -1,12 +1,13 @@
+// API INSTANCE
 import axios from "axios";
 
 const instance = axios.create({
   baseURL: 'http://127.0.0.1:3000/',
+  withCredentials: true,
   headers: {
-    Authorization: "Bearer " + localStorage.getItem("token"),
-    "Content-Type": "application/json", // Corrected syntax here
+    "Content-Type": "application/json",
   },
-  timeout: 1000, // Moved timeout outside the headers object
+  timeout: 1000,
 });
 
 export default instance;

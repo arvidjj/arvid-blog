@@ -26,7 +26,31 @@ const NewPost = () => {
                 content: textEditor,
                 author: value.authUserId,
             }
-            const response = await instance.post('/posts', post);
+            //also send cookies
+            /*const response = await instance.post('/posts', post, {
+                withCredentials: true,
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+            });*/
+
+           const response = fetch('http://localhost:3000/posts', {
+                method: 'POST',
+                credentials: 'include',
+                body: JSON.stringify(post),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => response.json())
+                .then(body => {
+                    if (body.success) {
+                        console.log('Enviado.')
+                    }
+                }
+                )
+
             console.log(response);
             setIsLoading(false);
         } catch (error) {
