@@ -1,7 +1,9 @@
-const bcrypt = require('bcrypt');
+
 const Post = require('../models/post')
 const { body, validationResult } = require('express-validator');
 const postController = {};
+var Purifier = require('html-purify');
+var purifier = new Purifier();
 
 postController.createPost = async (req, res, next) => {
   // Check for validation errors
@@ -23,10 +25,12 @@ postController.createPost = async (req, res, next) => {
     if (req.body.published) {
       published = req.body.published;
     }
+
+    const purifiedContent = purifier.purify(content, { ADD_TAGS: ['iframe'] });
     // Create the user
     const post = new Post({
       title,
-      content,
+      content: purifiedContent,
       author,
       timestamp,
       published
@@ -44,6 +48,8 @@ postController.createPost = async (req, res, next) => {
 //get all users
 postController.getPosts = async (req, res) => {
   try {
+    
+
     const posts = await Post.find();
     res.json(posts);
   } catch (error) {

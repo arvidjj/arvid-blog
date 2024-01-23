@@ -3,9 +3,15 @@ var router = express.Router();
 const passport = require('passport');
 const authController = require('../controllers/authController');
 
-/* GET home page. */
-router.get('/', function (req, res, next) {
-  res.render('index', { title: 'Express' });
+router.get("/", (req, res) => {
+  res.json({ name: "frodo" });
+});
+
+router.get("/test", (req, res) => res.json({ array }));
+
+router.post("/test", (req, res) => {
+  array.push(req.body.item);
+  res.send('success!');
 });
 
 router.post('/login', authController.login);

@@ -8,6 +8,7 @@ import LogIn from './components/LogIn'
 import NewPost from './components/NewPost'
 import ViewPost from './components/ViewPost'
 import NotFound from './components/404'
+import NewPostCK from './components/NewPostCK'
 import { useAuth } from './hooks/AuthProvider';
 
 function App() {
@@ -27,7 +28,10 @@ function App() {
           <Route path="post/:postId" element={<ViewPost />} />
 
           {(value.isAuthenticated && (value.userRole === 'admin')) && (
-            <Route path="/newpost" element={<NewPost />} />
+            <>
+              <Route path="/newpost" element={<NewPost />} />
+              <Route path="/newpostck" element={<NewPostCK />} />
+            </>
           )}
 
         </Routes>

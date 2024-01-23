@@ -15,12 +15,15 @@ const ViewPost = () => {
             try {
                 const response = await instance.get(`/posts/${postId}`);
                 setPost(response.data);
+                //console.log(DOMPurify.sanitize(post.content))
             } catch (error) {
                 console.error('Error fetching post:', error);
             }
         };
 
         fetchPost();
+
+        
     }, [postId]);
 
     return (
