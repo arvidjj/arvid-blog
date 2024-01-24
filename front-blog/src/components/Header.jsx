@@ -8,7 +8,7 @@ const Header = () => {
 
     const logOutButton = () => {
         logout();
-        navigate('/');
+        navigate(0);
     }
 
     return (

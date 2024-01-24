@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import instance from '../api_instance';
 import { useAuth } from '../hooks/AuthProvider';
 import { useNavigate } from 'react-router-dom';
-import Markdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
-import instance from '../api_instance';
-import remarkBreaks from "remark-breaks";
+import parse from 'html-react-parser';
+import DOMPurify from 'dompurify';
 //image
 
-const Index = () => {
+const IndexHTML = () => {
     const [posts, setPosts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const { value } = useAuth();
@@ -44,8 +43,14 @@ const Index = () => {
     if (isLoading) {
         return <div>Loading...</div>;
     }
+
     return (
         <div>
+            {value.isAuthenticated && (
+                <div>
+                    <h3>Hello, {value.authUserId}!</h3>
+                </div>
+            )}
             <h1>Arvid OJ</h1>
             <h2>Latest Posts</h2>
             <ul>
@@ -59,9 +64,7 @@ const Index = () => {
                                     </a>
                                     <p>{formatDate(post.timestamp)}</p>
                                 </div>
-                                <Markdown className="indexPostContent" remarkPlugins={[remarkGfm, remarkBreaks]}>
-                                    {post.content}
-                                </Markdown>
+                                {parse(`${DOMPurify.sanitize(post.content)}`)}
                             </div>
                             <div style={{ display: 'flex', marginLeft: 'auto', marginBottom: '10px' }}>
                                 <button onClick={() => enterPost(post._id)}>Read More</button>
@@ -76,4 +79,4 @@ const Index = () => {
     );
 };
 
-export default Index;
+export default IndexHTML;

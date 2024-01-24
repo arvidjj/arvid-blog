@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import instance from '../api_instance';
+import parse from 'html-react-parser';
+import DOMPurify from 'dompurify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
-import Markdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
 
-const ViewPost = () => {
+const ViewPostHTML = () => {
     const [post, setPost] = useState(null);
     const { postId } = useParams();
 
@@ -15,6 +15,7 @@ const ViewPost = () => {
             try {
                 const response = await instance.get(`/posts/${postId}`);
                 setPost(response.data);
+                //console.log(DOMPurify.sanitize(post.content))
             } catch (error) {
                 console.error('Error fetching post:', error);
             }
@@ -34,7 +35,7 @@ const ViewPost = () => {
                 <div className='postbody'>
                     <h1 className='postheader'>{post.title}</h1>
                     <div>
-                        <Markdown remarkPlugins={[remarkGfm]}>{post.content}</Markdown>
+                        {parse(`${DOMPurify.sanitize(post.content)}`)}
                     </div>
                 </div>
             ) : (
@@ -44,4 +45,4 @@ const ViewPost = () => {
     );
 };
 
-export default ViewPost;
+export default ViewPostHTML;
