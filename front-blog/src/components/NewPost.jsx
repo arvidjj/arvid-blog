@@ -102,17 +102,18 @@ const NewPost = () => {
 
             <h2>New Post</h2>
             <form onSubmit={handleSubmit}>
-                <label>Title:</label>
-                <input type='text' value={postTitle} onChange={handleTitleChange} />
+                <div className='flex flex-col '>
+                    <label>Title:</label>
+                    <input type='text' value={postTitle} onChange={handleTitleChange} />
+                </div>
 
                 <div className='markdownsidebyside'>
-                    <div >
+                    <div className='markdownpostcreator'>
                         <label>Content:</label>
-                        <MdEditor value={markdownContent}
+                        <MdEditor className='markdownItself' value={markdownContent}
                             onChange={({ text }) => setMarkdownContent(text)}
                             renderHTML={text => setMarkdownContent(text)}
                             onImageUpload={handleImageUpload}
-                            
                         />
 
                     </div>
@@ -128,3 +129,5 @@ const NewPost = () => {
 }
 
 export default NewPost;
+
+

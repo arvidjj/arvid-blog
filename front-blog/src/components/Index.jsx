@@ -46,31 +46,30 @@ const Index = () => {
     }
     return (
         <div>
-            <h1>Arvid OJ</h1>
             <h2>Latest Posts</h2>
-            <ul>
-                {posts.map((post) => (
-                    <li key={post._id}>
-                        <div className="postindex">
-                            <div className='postcontentindex'>
-                                <div className="posttitleandtime">
-                                    <a href={`/post/${post._id}`}>
-                                        <h1>{post.title}</h1>
-                                    </a>
-                                    <p>{formatDate(post.timestamp)}</p>
+                <div className='postList'>  
+                    {posts.map((post) => (
+                        <div key={post._id}>
+                            <div className="postindex">
+                                <div className='postcontentindex'>
+                                    <div className="posttitleandtime">
+                                        <a href={`/post/${post._id}`}>
+                                            <h1>{post.title}</h1>
+                                        </a>
+                                        <p>{formatDate(post.timestamp)}</p>
+                                    </div>
+                                    <Markdown className="indexPostContent" remarkPlugins={[remarkGfm, remarkBreaks]}>
+                                        {post.content}
+                                    </Markdown>
                                 </div>
-                                <Markdown className="indexPostContent" remarkPlugins={[remarkGfm, remarkBreaks]}>
-                                    {post.content}
-                                </Markdown>
+                                <div style={{ display: 'flex', marginLeft: 'auto', marginBottom: '10px' }}>
+                                    <button onClick={() => enterPost(post._id)}>Read More</button>
+                                </div>
+                                <hr />
                             </div>
-                            <div style={{ display: 'flex', marginLeft: 'auto', marginBottom: '10px' }}>
-                                <button onClick={() => enterPost(post._id)}>Read More</button>
-                            </div>
-                            <hr />
                         </div>
-                    </li>
-                ))}
-            </ul>
+                    ))}
+                </div>
             {/* Pagination */}
         </div>
     );

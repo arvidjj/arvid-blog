@@ -33,7 +33,7 @@ const ViewPost = () => {
             {post ? (
                 <div className='postbody'>
                     <h1 className='postheader'>{post.title}</h1>
-                    <div>
+                    <div className='flex flex-col gap-5'>
                         <Markdown remarkPlugins={[remarkGfm]}>{post.content}</Markdown>
                     </div>
                 </div>

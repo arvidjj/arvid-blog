@@ -15,9 +15,10 @@ const Header = () => {
         <header>
             <a href='/'> <div className="logo">Logo</div></a>
             <ul className='navlist'>
+                <li>PortFolio</li>
+                <li>Posts</li>
                 <li>Game Dev</li>
                 <li>Music</li>
-                <li>Other</li>
             </ul>
 
             {value.isAuthenticated ? (

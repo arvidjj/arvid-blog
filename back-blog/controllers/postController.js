@@ -9,6 +9,11 @@ postController.createPost = async (req, res, next) => {
   // Check for validation errors
   const errors = validationResult(req);
 
+  //if is not admin
+  if (!(req.user.role === 'admin')) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }

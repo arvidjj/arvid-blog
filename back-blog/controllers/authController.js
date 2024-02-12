@@ -7,13 +7,14 @@ const jwt = require('jsonwebtoken');
 
 authController.login = (req, res, next) => {
     passport.authenticate('local', (err, user, info) => {
+        
         if (err) {
             return res.status(500).json({ error: err });
         }
         if (!user) {
             return res.status(401).json({ message: 'Authentication failed' });
         }
-
+        
         // create user dboject without password and email and id
         const userObject = user.toObject();
         delete userObject.password;
